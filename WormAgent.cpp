@@ -136,13 +136,13 @@ void WormAgent::InitialiseAgent(double stepsize)
 	iSensorD = (int) (sensorD/stepsize); // esto es nuevo y no se que es
 	dSensorD = (double) iSensorD;
 	
-	pathlength = 0.0;
+	//pathlength = 0.0;
 	concave = 0;
 	convex = 0;
 	avgvel = 0.0;
 	pushConcave = 0.0;
 	pushConvex = 0.0;	
-	histConcave.SetBounds(1,VelDelta);
+	histConcave.SetBounds(1,VelDelta); // VelDelta		=	(int) (HST/StepSize);
 	histConcave.FillContents(0.0);
 	histConvex.SetBounds(1,VelDelta);
 	histConvex.FillContents(0.0);
@@ -244,8 +244,9 @@ void WormAgent::PrintPath( ofstream &file)
 	file << endl;
 }
 
-void WormAgent::PrintDetail( ofstream &file)
+void WormAgent::PrintDetail( ofstream &file, double timestep)
 {
+	file << timestep << " ";
 	file << V_on << " ";
 	file << V_off << " ";
 	file << px << " ";
@@ -289,7 +290,8 @@ void WormAgent::Step(double StepSize, RandomState &rs, double timestep)
 	histConvex.PushFront(pushConvex);
 	concave = concave - histConcave(VelDelta) + pushConcave;
 	convex = convex - histConvex(VelDelta) + pushConvex;
-	avgvel = MaxVel*pow((concave/(HST/2))*(convex/(HST/2)),2);
+	cout << concave << " " << endl;
+	avgvel = MaxVel*pow((concave/(HST/2))*(convex/(HST/2)),2); // concave and convex tienen que ser ambos distintos de cero para que la velocidad sea distinta de cero. 
 	
 	// Update the velocity 
 	vx = cos(orient) * avgvel;	//MaxVel

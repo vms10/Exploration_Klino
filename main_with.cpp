@@ -127,9 +127,9 @@ void ExampleRun()
 	int repetitions,replacements;
 	RandomState rs;
 	rs.SetRandomSeed(IDUM);
-	ExampleFile.open("examples.dat");
-	PirFile.open("pirxy.dat");
-	WormAgent Worm("best.ns.dat");
+	ExampleFile.open("/Users/carlos/Desktop/Exploration_Klino/examples.dat");
+	PirFile.open("/Users/carlos/Desktop/Exploration_Klino/pirxy.dat");
+	WormAgent Worm("/Users/carlos/Desktop/Exploration_Klino/best.ns.dat");
 	Worm.InitialiseAgent(StepSize);
 
 	for (repetitions = 1; repetitions <= 1; repetitions++)

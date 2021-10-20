@@ -96,7 +96,7 @@ public:
 	void SetParameters(TVector<double> &v);
 	void InitialiseAgent(double stepsize);
 	void InitialiseSensorHistory();	
-	void PrintDetail(ofstream &file);
+	void PrintDetail(ofstream &file, double timestep);
 	void PrintPath(ofstream &file);
 	void Step(double StepSize, RandomState &rs, double timestep);
 	
