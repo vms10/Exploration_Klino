@@ -10,10 +10,10 @@
 #include "CTRNN.h"
 
 
-//#define GRAD_CONE
+#define GRAD_CONE
 //#define GRAD_INVCONE
 //#define GRAD_ISO
-#define GRAD_GAUS				
+//#define GRAD_GAUS				
 
 // Global constants
 const double	StepSize		=	0.01;			// Fastest time-constant is now 0.1 (10ms)
@@ -25,7 +25,7 @@ const double	HST				=	4.2;			// Head Sweep Time, T=4.2sec, According to Ferree, 
 const double	HSP				=	(2*Pi)/HST;		//Head-sweep period 2*Pi/T, According to Ferree, Marcotte, Lockery, 1997.
 const int		VelDelta		=	(int) (HST/StepSize);
 const double	SensorNoiseStd	=	0.0; //0.0000001;		// Standard deviation of the Gaussian noise to the sensor
-const double	MotorNoiseStd	=	0.05;			// Standard deviation of the Gaussian noise to the sensor
+const double	MotorNoiseStd	=	0.0;			// Standard deviation of the Gaussian noise to the sensor
 //const double	NeckLimit		=	(Pi/4);			// Lv is 2Ld. Lo is 1. So, ArcTan[2-1/1]
 
 // The WormAgent class declaration
@@ -89,7 +89,7 @@ public:
 	void UpdateChemCon( RandomState &rs );
 	void UpdateChemConHistory();
 	void UpdateSensors();
-    void ResetAgentsBody(RandomState &rs);
+    void ResetAgentsBody(RandomState &rs, double ang_inici);
     void ResetAgentIntState(RandomState &rs);
 	void ResetEnvType(RandomState &rs);
     void ResetChemical(RandomState &rs);
@@ -104,7 +104,7 @@ public:
 	double pastTheta,DthetaDt;
 	int timer;
 	double NMdiff;
-	double concave, convex, pathlength;
+	double concave, convex, pathlength, aux_vel;
 	double pushConcave, pushConvex;
 	double gradSteepness;
 	TVector<double> histConcave,histConvex;

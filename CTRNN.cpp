@@ -19,34 +19,6 @@
 #include <stdlib.h>
 
 
-// A fast sigmoid implementation using a table w/ linear interpolation
-#ifdef FAST_SIGMOID
-int SigTableInitFlag = 0;
-double SigTab[SigTabSize];
-
-void InitSigmoidTable(void)
-{
-	if (!SigTableInitFlag) {
-		double DeltaX = SigTabRange/(SigTabSize-1);
-		for (int i = 0; i <= SigTabSize-1; i++)
-			SigTab[i] = sigma(i * DeltaX);
-		SigTableInitFlag = 1;
-	}
-}
-
-double fastsigmoid(double x)
-{
-	if (x >= SigTabRange) return 1.0;
-	if (x < 0) return 1.0 - fastsigmoid(-x);
-	double id;
-	double frac = modf(x*(SigTabSize-1)/SigTabRange, &id);
-	int i = (int)id;
-	double y1 = SigTab[i], y2 = SigTab[i+1];
-	
-	return y1 + (y2 - y1) * frac;
-}
-#endif
-
 // **************************** 
 // Constructors and Destructors
 // ****************************
@@ -56,9 +28,6 @@ double fastsigmoid(double x)
 CTRNN::CTRNN(int newsize)
 {
 	SetCircuitSize(newsize);
-#ifdef FAST_SIGMOID
-	InitSigmoidTable();
-#endif
 }
 
 
@@ -156,56 +125,6 @@ void CTRNN::EulerStep(double stepsize)
 //	}
 }
 
-
-// Integrate a circuit one step using 4th-order Runge-Kutta.
-
-void CTRNN::RK4Step(double stepsize)
-{
-	int i,j;
-	double input;
-	
-	// The first step.
-	for (i = 1; i <= size; i++) {
-		input = externalinputs[i];
-		for (j = 1; j <= size; j++)
-			input += weights[j][i] * outputs[j];
-		k1[i] = stepsize * Rtaus[i] * (input - states[i]); 
-		TempStates[i] = states[i] + 0.5*k1[i];
-		TempOutputs[i] = sigmoid(gains[i]*(TempStates[i]+biases[i]));
-	}
-	
-	// The second step.
-	for (i = 1; i <= size; i++) {
-		input = externalinputs[i];
-		for (j = 1; j <= size; j++)
-			input += weights[j][i] * TempOutputs[j];
-		k2[i] = stepsize * Rtaus[i] * (input - TempStates[i]);
-		TempStates[i] = states[i] + 0.5*k2[i];
-	}
-	for (i = 1; i <= size; i++)
-		TempOutputs[i] = sigmoid(gains[i]*(TempStates[i]+biases[i]));
-	
-	// The third step.
-	for (i = 1; i <= size; i++) {
-		input = externalinputs[i];
-		for (j = 1; j <= size; j++)
-			input += weights[j][i] * TempOutputs[j];
-		k3[i] = stepsize * Rtaus[i] * (input - TempStates[i]);
-		TempStates[i] = states[i] + k3[i];
-	}
-	for (i = 1; i <= size; i++)
-		TempOutputs[i] = sigmoid(gains[i]*(TempStates[i]+biases[i]));
-	
-	// The fourth step.
-	for (i = 1; i <= size; i++) {
-		input = externalinputs[i];
-		for (j = 1; j <= size; j++)
-			input += weights[j][i] * TempOutputs[j];
-		k4[i] = stepsize * Rtaus[i] * (input - TempStates[i]);
-		states[i] += (1.0/6.0)*k1[i] + (1.0/3.0)*k2[i] + (1.0/3.0)*k3[i] + (1.0/6.0)*k4[i];
-		outputs[i] = sigmoid(gains[i]*(states[i]+biases[i]));
-	}
-}
 
 
 // Set the biases of the CTRNN to their center-crossing values

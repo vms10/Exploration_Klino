@@ -11,8 +11,6 @@
 #include "CTRNN.h"
 #include "random.h"
 
-//#define KILLONCELL 
-//#define KILLOFFCELL
 
 // ****************************
 // Constructors and Destructors
@@ -161,9 +159,9 @@ void WormAgent::InitialiseSensorHistory()
 // Resetting
 // *******
 
-void WormAgent::ResetAgentsBody(RandomState &rs)
+void WormAgent::ResetAgentsBody(RandomState &rs, double ang_inici)
 {
-	double tempangle = 0.0; //rs.UniformRandom(0,2*Pi); //XXXXXXX
+	double tempangle = ang_inici; //rs.UniformRandom(0,2*Pi); //XXXXXXX
 #ifdef GRAD_CONE				
 	distanceToCentre = -MaxDist;	
 #endif
@@ -275,10 +273,10 @@ void WormAgent::Step(double StepSize, RandomState &rs, double timestep)
 	NervousSystem.EulerStep(StepSize);
 	
 	// Calculate head alignment	
-	whiteNoise = rs.GaussianRandom(0.0, MotorNoiseStd);
+	
 	NMdiff = NervousSystem.NeuronOutput(ventralMotorNeuron) - NervousSystem.NeuronOutput(dorsalMotorNeuron);
 	theta = (outputGain * NMdiff);
-	orient += StepSize * (theta + whiteNoise);
+	orient += StepSize * theta;
 		
 	DthetaDt = theta - pastTheta;
 	pastTheta = theta;
@@ -290,12 +288,20 @@ void WormAgent::Step(double StepSize, RandomState &rs, double timestep)
 	histConvex.PushFront(pushConvex);
 	concave = concave - histConcave(VelDelta) + pushConcave;
 	convex = convex - histConvex(VelDelta) + pushConvex;
-	cout << concave << " " << endl;
 	avgvel = MaxVel*pow((concave/(HST/2))*(convex/(HST/2)),2); // concave and convex tienen que ser ambos distintos de cero para que la velocidad sea distinta de cero. 
+	aux_vel = avgvel == 0 ? 0.0 : MaxVel;
 	
-	// Update the velocity 
-	vx = cos(orient) * avgvel;	//MaxVel
-	vy = sin(orient) * avgvel;	//MaxVel
+	// vel cte
+	//vx = cos(orient) * aux_vel; 	
+	//vy = sin(orient) * aux_vel; 
+
+	// vel cte sin chequear si es sinusoidal
+	vx = cos(orient) * MaxVel; 	
+	vy = sin(orient) * MaxVel; 
+
+	// Update the velocity , avge vel
+	//vx = cos(orient) * avgvel; 	
+	//vy = sin(orient) * avgvel; 
 	
 	// Move the agent
 	px += StepSize * vx;

@@ -7,8 +7,7 @@
 //  1/08 Added table-based fast sigmoid w/ linear interpolation
 // ************************************************************
 
-// Uncomment the following line for table-based fast sigmoid w/ linear interpolation
-//#define FAST_SIGMOID
+
 
 #include "VectorMatrix.h"
 #include "random.h"
@@ -21,13 +20,6 @@
 
 // The sigmoid function
 
-#ifdef FAST_SIGMOID
-const int SigTabSize = 400;
-const double SigTabRange = 15.0;
-
-double fastsigmoid(double x);
-#endif
-
 inline double sigma(double x) 
 {
   return 1/(1 + exp(-x));
@@ -35,11 +27,7 @@ inline double sigma(double x)
 
 inline double sigmoid(double x)
 {
-#ifndef FAST_SIGMOID
   return sigma(x);
-#else
-  return fastsigmoid(x);
-#endif
 }
 
 
@@ -101,7 +89,6 @@ class CTRNN {
         void RandomizeCircuitOutput(double lb, double ub);
         void RandomizeCircuitOutput(double lb, double ub, RandomState &rs);
         void EulerStep(double stepsize);
-        void RK4Step(double stepsize);
 		
         int size;
         TVector<double> states, outputs, biases, gains, taus, Rtaus, externalinputs;
