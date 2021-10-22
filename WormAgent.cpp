@@ -189,7 +189,8 @@ void WormAgent::ResetAgentsBody(RandomState &rs, double ang_inici)
 void WormAgent::ResetChemCon( RandomState &rs )
 {
 	//gradSteepness = 1.0; //exp(rs.UniformRandom(log(0.1),log(1.0)));
-	gradSteepness = rs.UniformRandom(0.1, 1.0);
+	//gradSteepness = rs.UniformRandom(0.1, 1.0);
+	gradSteepness = 0.451615; 
 }
 
 void WormAgent::ResetAgentIntState(RandomState &rs)
@@ -244,19 +245,15 @@ void WormAgent::PrintPath( ofstream &file)
 
 void WormAgent::PrintDetail( ofstream &file, double timestep)
 {
-	file << timestep << " ";
+	//file << timestep << " ";
 	file << V_on << " ";
 	file << V_off << " ";
 	file << px << " ";
 	file << py << " ";
-	file << theta << " ";
-	file << avgvel << " ";
 	for (int i = 1; i <= size; i++){
-		file << NervousSystem.NeuronOutput(i) << " ";
+		file << NervousSystem.states(i) << " ";
 	}	
-	file << chemCon << " ";
-	file << currentConc/dSensorN << " ";
-	file << pastConc/dSensorM << " ";
+	//file << chemCon << " ";
 	file << orient << " ";
 	file << endl;
 }

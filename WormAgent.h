@@ -20,7 +20,6 @@ const double	StepSize		=	0.01;			// Fastest time-constant is now 0.1 (10ms)
 const double	Pi				=	3.1415926;
 const double	MaxDist			=	4.5; // Half the radius of the big petri dish (in cm)
 const double	MaxVel			=	0.022;			// Forward velocity (in cm/s) CHECK WHAT THE REAL VELOCITY SHOULD BE
-const double	ChemDiffConst	=	2*pow(1.61,2);	// Simulated chemical environment according to Ward, 1973 as described in Ferree and Lockery 1999 equation 14.
 const double	HST				=	4.2;			// Head Sweep Time, T=4.2sec, According to Ferree, Marcotte, Lockery, 1997.
 const double	HSP				=	(2*Pi)/HST;		//Head-sweep period 2*Pi/T, According to Ferree, Marcotte, Lockery, 1997.
 const int		VelDelta		=	(int) (HST/StepSize);

@@ -27,18 +27,17 @@ void ExampleRun()
 	ExampleFile.open("/Users/carlos/Desktop/Exploration_Klino/for_angulo_vel_cte_sin_restric_CONTROL.txt");
 	WormAgent Worm("/Users/carlos/Desktop/Exploration_Klino/best.ns.dat");
 	Worm.InitialiseAgent(StepSize);
-
-	for (repetitions = 1; repetitions <= 1; repetitions++)
+	double ang_inicial_for= 0.0;
+	for (repetitions = 1; repetitions <= 10; repetitions++)
 	{
 		Worm.ResetAgentIntState(rs);
-		double ang_inicial_for= 0.0;
-		for (replacements = 1; replacements <= 10; replacements++)
+		for (replacements = 1; replacements <= 1; replacements++)
 		{
-			cout << ang_inicial_for << " " << endl;
 			Worm.ResetAgentsBody(rs, ang_inicial_for);
 			Worm.ResetChemCon(rs);
 			Worm.UpdateChemCon(rs);
 			Worm.InitialiseSensorHistory();
+			cout << ang_inicial_for << " " << endl;
 			Worm.SetOffsetCPG(Pi/2);
 			Worm.SetOrientation(-Pi/2);
 			t=0;
@@ -51,8 +50,9 @@ void ExampleRun()
 				Worm.UpdateSensors();
 				Worm.PrintDetail(ExampleFile, t);
 			}
-			ang_inicial_for = ang_inicial_for + 0.6283185307179586;
+			
 		}
+		ang_inicial_for = ang_inicial_for + 0.6283185307179586;
 	}
 
 	ExampleFile.close();
