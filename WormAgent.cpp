@@ -12,6 +12,8 @@
 #include "random.h"
 
 
+
+
 // ****************************
 // Constructors and Destructors
 // ****************************
@@ -230,6 +232,7 @@ void WormAgent::UpdateChemConHistory( )
 void WormAgent::UpdateSensors()
 {
 	currentConc += chemConHistory[timer - iSensorD - 1] - chemConHistory[timer - iSensorD - iSensorN - 1];
+	//cout << currentConc << " " << endl;
 	pastConc += chemConHistory[timer - iSensorD - iSensorN - 1] - chemConHistory[timer - iSensorD - iSensorN - iSensorM - 1];
 	tempDiff = (currentConc/dSensorN) - (pastConc/dSensorM);
 	V_on = tempDiff > 0.0 ? tempDiff: 0.0;
@@ -245,16 +248,22 @@ void WormAgent::PrintPath( ofstream &file)
 
 void WormAgent::PrintDetail( ofstream &file, double timestep)
 {
-	//file << timestep << " ";
+	//file << tempDiff << " ";
+	//file << chemConHistory[timer - iSensorD - 1] << " ";
+	//file << chemConHistory[timer - iSensorD - iSensorN - 1] << " ";
+	//file << chemConHistory[timer - iSensorD - iSensorN - iSensorM - 1] << " ";
+	file << currentConc << " ";
+	file << pastConc << " ";
+	//file << chemCon << " ";
 	file << V_on << " ";
 	file << V_off << " ";
-	file << px << " ";
-	file << py << " ";
-	for (int i = 1; i <= size; i++){
-		file << NervousSystem.states(i) << " ";
-	}	
+	//file << px << " ";
+	//file << py << " ";
+	//for (int i = 1; i <= size; i++){
+	//	file << NervousSystem.states(i) << " ";
+	//}	
 	//file << chemCon << " ";
-	file << orient << " ";
+	//file << orient << " ";
 	file << endl;
 }
 

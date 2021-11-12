@@ -111,7 +111,7 @@ public:
 	double CPGoffset, chemCon, chemConDelayed, V_on, V_off, outputGain, whiteNoise;
 	int envtype,size,dorsalMotorNeuron,ventralMotorNeuron,delta,tau;
 	TVector<double> onWeight,offWeight,cpgWeight;
-	double chemConHistory[50300];	// RunDuration / StepSize
+	double chemConHistory[50400];	// RunDuration / StepSize
 	double currentConc, pastConc;
 	double sensorD, sensorN, sensorM;
 	double dSensorD, dSensorN, dSensorM;
