@@ -20,15 +20,15 @@ int	VectSize = 9;
 void ExampleRun()
 {
 	ofstream ExampleFile;
-	ofstream histchem;
+	//ofstream histchem;
 	double t;
 	long IDUM=time(0);
 	int repetitions,replacements;
 	RandomState rs;
 	rs.SetRandomSeed(IDUM);
 	//ExampleFile.open("/Users/carlos/Desktop/Exploration_Klino/for_angulo_vel_cte_sin_restric_CONTROL.txt");
-	ExampleFile.open("/Users/carlos/Desktop/Exploration_Klino/chemHistory.txt");
-	histchem.open("/Users/carlos/Desktop/Exploration_Klino/chemHistory_vect.txt");
+	ExampleFile.open("/Users/carlos/Desktop/Exploration_Klino/control_negative_chemo.txt");
+	//histchem.open("/Users/carlos/Desktop/Exploration_Klino/chemHistory_vect.txt");
 	WormAgent Worm("/Users/carlos/Desktop/Exploration_Klino/best.ns.dat");
 	Worm.InitialiseAgent(StepSize);
 	double ang_inicial_for= 0.0;
@@ -58,14 +58,14 @@ void ExampleRun()
 			
 		}
 		for (int i = 0; i < 50196; i++){
-			histchem << std::fixed << std::setprecision(12) << Worm.chemConHistory[i] << " ";
-			histchem << endl;
+			//histchem << std::fixed << std::setprecision(12) << Worm.chemConHistory[i] << " ";
+			//histchem << endl;
 	}
 		ang_inicial_for = ang_inicial_for + 0.6283185307179586;
 	}
 
 	ExampleFile.close();
-	histchem.close();
+	//histchem.close();
 	
 	
 		

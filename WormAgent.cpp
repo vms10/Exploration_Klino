@@ -252,18 +252,18 @@ void WormAgent::PrintDetail( ofstream &file, double timestep)
 	//file << chemConHistory[timer - iSensorD - 1] << " ";
 	//file << chemConHistory[timer - iSensorD - iSensorN - 1] << " ";
 	//file << chemConHistory[timer - iSensorD - iSensorN - iSensorM - 1] << " ";
-	file << currentConc << " ";
-	file << pastConc << " ";
+	//file << currentConc << " ";
+	//file << pastConc << " ";
 	//file << chemCon << " ";
-	file << V_on << " ";
-	file << V_off << " ";
-	//file << px << " ";
-	//file << py << " ";
-	//for (int i = 1; i <= size; i++){
-	//	file << NervousSystem.states(i) << " ";
-	//}	
+	//file << V_on << " ";
+	//file << V_off << " ";
+	file << px << " ";
+	file << py << " ";
+	for (int i = 1; i <= size; i++){
+		file << NervousSystem.states(i) << " ";
+	}	
 	//file << chemCon << " ";
-	//file << orient << " ";
+	file << orient << " ";
 	file << endl;
 }
 
